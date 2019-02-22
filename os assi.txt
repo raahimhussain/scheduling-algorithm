@@ -1,0 +1,254 @@
+class sche:
+  def fcfs(self):
+    process = []
+    wt=0
+
+    tat=[]
+    n = int(input('Enter the no of processes: '))
+    for i in range(n):
+     process.append([])
+     process[i].append(input('Enter p_name: '))
+     process[i].append(int(input('Enter p_arrival: ')))
+     wt =wt+ process[i][1]
+     process[i].append(int(input('Enter p_burst: ')))
+    
+
+    
+    
+	
+
+
+    process.sort(key = lambda process:process[1])
+
+    print('ProcessName\tArrivalTime\tBurstTime\ttat')
+    for i in range(n):
+     print(process[i][0],'\t\t',process[i][1],'\t\t',process[i][2])
+    
+    print('Total waiting time: ',wt)
+    print('Average waiting time: ',(wt/n))
+  
+
+  def sjf(self):
+    n = input ("enter number of processes") 
+    n = int (n) 
+    processes=[]
+	 
+    bt=[]
+    for i in range (0,n): 
+     x = input ("Enter the burst time: ") 
+     bt.append (int(x)) 
+    for i in range(len(bt)):
+
+      
+      minimum = i
+
+      for j in range(i+1, len(bt)):
+           if bt[minimum] > bt[j]:
+               minimum = j
+                
+              
+      temp = bt[i]
+      bt[i] = bt[minimum]
+      bt[minimum] = temp
+    wt=[]    
+    avgwt=0  #average of waiting time
+    tat=[]    #tat stands for turnaround time
+    avgtat=0   #average of total turnaround time
+    wt.insert(0,0)
+    tat.insert(0,bt[0])
+    for i in range(1,len(bt)):  
+     wt.insert(i,wt[i-1]+bt[i-1])
+     tat.insert(i,wt[i]+bt[i])
+     avgwt+=wt[i]
+     avgtat+=tat[i]
+    avgwt=float(avgwt)/n
+    avgtat=float(avgtat)/n
+    print("\n")
+    print("Process\t  Burst Time\t  Waiting Time\t  Turn Around Time")
+    for i in range(0,n):
+     print(" " + str(i + 1) + "\t\t" +
+					str(bt[i]) + "\t " +
+					str(wt[i]) + "\t\t")
+					   
+ 
+    print("\n")
+    print("Average Waiting time is: "+str(avgwt))
+    print("Average Turn Arount Time is: "+str(avgtat))
+  
+  def priority(self):
+    process = []
+    totalwt = 0
+    tat=[]
+    n = int(input('Enter the total no of processes: '))
+    for i in range(n):
+      process.append([])
+      process[i].append(input('Enter p_name: '))
+      process[i].append(int(input('Enter p_burst: ')))
+      process[i].append(int(input('Enter Priority  ')))
+      process[i].append(int(input('Enter p_arrival: ')))
+    
+      tat.append([])
+      tat[i]=process[i][3]+process[i][1]
+  
+
+    process.sort(key = lambda process:process[2])
+
+
+    for i in process[:n-1]:
+	    totalwt+=totalwt+i[1]
+
+		
+	
+	
+    print('ProcessName\tBurstTime\tpriority\tturnaroundtime')
+    for i in range(n):
+      print(process[i][0],'\t\t',process[i][1],'\t\t',process[i][2],'\t\t',process[i][3])
+    
+    print('Total waiting time: ',totalwt)
+    print('Average waiting time: ',(totalwt/n))
+
+  
+  
+  def roundrobin(self):
+    n = input("enter number of processes")
+    n = int(n)
+    processes = [n]
+    ze=[]
+    ze.append([])
+    ze[0]=0
+
+
+    bt = []
+    for i in range(0, n):
+      x = input("Enter the burst time: ")
+
+    bt.append([])
+    wt = []
+    for i in range(0, n):
+      wt.append([])
+    rem_bt = []
+
+    quantum = 2
+
+    for i in range(0, n):
+      rem_bt.append([])
+    for i in range(0,n):
+      rem_bt[i] =bt[i]
+
+    t = 0
+    q=0
+
+    while 1:
+      bool(True)
+      for i in range(0, n):
+          
+
+        if (rem_bt[i]>int(ze[0])):
+            bool(False)
+            if rem_bt[i] > quantum:
+                t = t + quantum
+                rem_bt[i] = rem_bt[i] - quantum
+
+
+            else:
+                t = t + rem_bt[i]
+                wt[i] = t - bt[i]
+                rem_bt[i] = 0
+
+    for i in range(0, n):
+      tat.append([])
+    for i in range(0, n):
+      tat[i] = bt[i] + wt[i]
+      print(tat[i])
+
+    print("Processes Burst time " +
+      " Waiting time " +
+      " Turn around time")
+
+    for i in range(0, n):
+      totat_wt = totat_wt + wt[i]
+      totat_tat = totat_tat + tat[i]
+      print(" " + str(i + 1) + "\t\t" +
+          str(bt[i]) + "\t " +
+          str(wt[i]) + "\t\t" + str(tat[i]) + "\t\t")
+
+    print("\n")
+    print("Average Waiting time is: " + str(totat_wt))
+    print("Average Turn Arount Time is: " + str(totat_tat))
+
+  
+  def sjfpre(self):
+    n = int(input('Enter no of processes: '))
+    bt = [0] * (n + 1)
+    at = [0] * (n + 1)
+    abt = [0] * (n + 1)
+    for i in range(n):
+        abt[i] = int(input('Enter the burst time for process {} : '.format(i + 1)))
+        at[i] = int(input('Enter the arrival time for process {} : '.format(i + 1)))
+        bt[i] = [abt[i], at[i], i]
+
+    bt.pop(-1)
+    print(abt)
+    print(bt)
+    sumbt = 0
+    i = 0
+    ll = []
+    for i in range(0, sum(abt)):
+        l = [j for j in bt if j[1] <= i]
+        l.sort(key=lambda x: x[0])
+        print(l, l[0][2])
+        bt[bt.index(l[0])][0] -= 1
+        for k in bt:
+            if k[0] == 0:
+                t = bt.pop(bt.index(k))
+                ll.append([k, i + 1])
+    print(ll)
+    ct = [0] * (n + 1)
+    tat = [0] * (n + 1)
+    wt = [0] * (n + 1)
+    for i in ll:
+        print(i, i[0], i[1], i[0][2])
+        ct[i[0][2]] = i[1]
+    
+
+    for i in range(len(ct)):
+        tat[i] = ct[i] - at[i]
+        wt[i] = tat[i] - abt[i]
+    ct.pop(-1)
+    wt.pop(-1)
+    tat.pop(-1)
+    abt.pop(-1)
+    at.pop(-1)
+    print('BT\tAT\tCT\tTAT\tWT')
+    for i in range(len(ct)):
+        print("{}\t{}\t{}\t{}\t{}\n".format(abt[i], at[i], ct[i], tat[i], wt[i]))
+    print('Average Waiting Time = ', sum(wt) / len(wt))
+    print('Average Turnaround Time = ', sum(tat) / len(tat))
+
+    
+    
+  
+
+    
+
+print("Select Scheduling Algorithm: \n 1= fcfs \n 2=sjf \n 3=priority \n 4=roundrobin \n 5=sjf(preemptive)")
+n=int(input())
+p=sche()
+if n == 0:
+  print("You typed zero")
+elif n== 1:
+  p.fcfs()
+elif n==2:
+  p.sjf()
+elif n==3:
+  p.priority()
+elif n==4:
+  p.roundrobin()
+elif n==5:
+  p.sjfpre()
+  
+
+
+
+
+  
